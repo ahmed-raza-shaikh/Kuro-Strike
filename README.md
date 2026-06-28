@@ -207,4 +207,8 @@ make docker-up # full stack
 
 ## License
 
-MIT
+This project is released under the [MIT License](LICENSE).
+
+Copyright (c) 2026 Ahmed Raza Shaikh.
+
+For the canonical license terms, see the [Open Source Initiative MIT License](https://opensource.org/license/mit/).
