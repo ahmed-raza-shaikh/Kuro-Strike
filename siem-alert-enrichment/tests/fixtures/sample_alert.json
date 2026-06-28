@@ -1,0 +1,22 @@
+{
+  "alert_name": "Suspicious Outbound Connection to Known C2",
+  "search_name": "SOC-042-Outbound-C2-Traffic",
+  "timestamp": "2024-06-15T14:23:11Z",
+  "source_ip": "185.220.101.45",
+  "destination_ip": "104.21.14.88",
+  "domain": "malware-c2-domain.xyz",
+  "file_hash": "44d88612fea8a8f36de82e1278abb02f",
+  "result": {
+    "src_ip": "185.220.101.45",
+    "dest_ip": "104.21.14.88",
+    "dest_port": "4444",
+    "bytes_out": "524288",
+    "process": "powershell.exe",
+    "user": "CORP\\jsmith",
+    "hostname": "ws-finance-07"
+  },
+  "extra": {
+    "severity": "high",
+    "category": "c2-communication"
+  }
+}
