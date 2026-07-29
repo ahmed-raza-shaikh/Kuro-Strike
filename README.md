@@ -1,4 +1,4 @@
-# SIEM Alert Enrichment Microservice
+# Kuro-Strike — SIEM Alert Enrichment Microservice for Splunk
 
 A production-ready Python microservice that enriches **Splunk** security alerts in real time using **VirusTotal**, **Shodan**, and **AbuseIPDB** threat intelligence — reducing mean analyst triage time from ~8 minutes to **under 90 seconds** per alert.
 
@@ -26,6 +26,12 @@ Splunk Alert  ──POST──►  /webhook/splunk
                     │   EnrichedAlert     │     (TTL 1 hr)
                     └─────────────────────┘
 ```
+
+
+## Key Results
+
+- Enriches Splunk alerts with threat intelligence from VirusTotal, Shodan, and AbuseIPDB to support faster SOC analyst triage.
+- Uses concurrent API calls and Redis caching to reduce repeat-IOC latency and preserve threat-intelligence API quotas.
 
 ## Features
 
@@ -183,6 +189,13 @@ make test      # pytest with coverage report
 make lint      # ruff linter
 make docker-up # full stack
 ```
+
+
+## Security and Privacy
+
+- Store VirusTotal, Shodan, AbuseIPDB, and optional Splunk webhook credentials only in environment variables or a managed secret store—never commit them.
+- Treat alert payloads and enrichment results as security-sensitive operational data; deploy with appropriate access controls, logging retention, and TLS termination.
+- API rate limits and third-party threat-intelligence coverage can affect enrichment completeness; validate findings through your incident-response process.
 
 ## Environment Variables
 
