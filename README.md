@@ -187,6 +187,29 @@ The service auto-detects IOCs from common Splunk field names (`src_ip`, `dest_ip
 
 <br/>
 
+## Roadmap — What's Next
+
+Kuro-Strike already closes the loop from *alert → enrichment → risk score*. Here's what would take it from "great enrichment API" to "the tool every Splunk SOC installs first" — contributions and ideas welcome:
+
+| Area | Idea | Why it matters |
+|---|---|---|
+| 📦 **Splunkbase App** | Package as an installable Splunk App (custom command + prebuilt dashboards) | Zero-webhook install — run `enrichalert` straight from SPL |
+| 🗺️ **MITRE ATT&CK mapping** | Auto-tag enriched alerts with ATT&CK tactic/technique IDs | Feeds directly into ATT&CK-based detection coverage dashboards |
+| 🧩 **Pluggable TI feeds** | Source-agnostic enricher interface for MISP, OTX, STIX/TAXII, GreyNoise | Not every team can afford VT/Shodan/AbuseIPDB paid tiers |
+| 🔁 **SOAR playbook connectors** | Native actions for Splunk SOAR (Phantom) and Cortex XSOAR | Enrichment becomes one node in an existing automated response chain |
+| 🧵 **Alert correlation & de-dup** | Group related alerts sharing IOCs into a single incident | Cuts analyst noise instead of just enriching each alert in isolation |
+| 🤖 **ML-tuned risk model** | Replace static weights with a model trained on analyst verdicts | Scoring improves the more your SOC uses it |
+| 📣 **Notification connectors** | Slack / Teams / PagerDuty push for HIGH+ CRITICAL alerts | Gets eyes on the worst alerts without polling a dashboard |
+| 📊 **Prebuilt Splunk dashboards** | Enrichment volume, cache hit rate, API quota burn, MTTT trend | Makes the tool's own ROI visible to the SOC lead |
+| 🕵️ **Case management hooks** | TheHive / Jira Service Management ticket creation | Enrichment output lands where the analyst already works |
+| 📈 **Observability** | Prometheus metrics + OpenTelemetry tracing | Production-grade visibility for teams running this at scale |
+| ☸️ **Helm chart / Terraform module** | One-command production deploy to Kubernetes | Removes the "how do we actually run this" barrier to adoption |
+| 🌐 **Offline fallback enrichment** | Local GeoIP/ASN databases when TI APIs are rate-limited | Degrades gracefully instead of failing when quotas are burned |
+
+Have an idea that isn't listed? [Open an issue](https://github.com/ahmed-raza-shaikh/Kuro-Strike/issues/new) — roadmap PRs are very welcome.
+
+<br/>
+
 ## Project Structure
 
 ```
