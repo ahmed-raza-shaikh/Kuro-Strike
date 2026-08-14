@@ -174,6 +174,19 @@ Configure in Splunk: **Alert Actions → Webhook → URL: `http://<host>:8000/we
 
 Flushes the Redis enrichment cache (admin/debug use).
 
+<br/>
+
+## Splunk Integration
+
+Two integration paths, pick what fits your environment — full walkthrough in [`splunk/README.md`](siem-alert-enrichment/splunk/README.md):
+
+- **Built-in Webhook** *(recommended, zero Splunk-side code)* — point a saved search's Webhook alert action at `/webhook/splunk`.
+- **Custom Alert Action** — deploy [`alert_action.py`](siem-alert-enrichment/splunk/alert_action.py) as a TA for index-time enrichment and KV Store writes.
+
+The service auto-detects IOCs from common Splunk field names (`src_ip`, `dest_ip`, `domain`, `file_hash`, `md5`, `sha256`, …) and writes enrichment results back as flat fields your dashboards and correlation searches can consume directly.
+
+<br/>
+
 ## Project Structure
 
 ```
