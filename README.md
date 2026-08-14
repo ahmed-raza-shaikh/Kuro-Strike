@@ -213,41 +213,53 @@ Have an idea that isn't listed? [Open an issue](https://github.com/ahmed-raza-sh
 
 <br/>
 
+## Tech Stack
+
+- **FastAPI** — async REST framework
+- **httpx** — async HTTP client for all three TI APIs
+- **redis[asyncio]** — async Redis client for caching
+- **pydantic v2** — data validation and serialisation
+- **pytest + respx** — unit and integration testing
+
+<br/>
+
 ## Project Structure
 
 ```
 siem-alert-enrichment/
 ├── src/
-│   ├── main.py                  # FastAPI app factory
-│   ├── config.py                # pydantic-settings config
+│   ├── main.py                   # FastAPI app factory
+│   ├── config.py                 # pydantic-settings config
 │   ├── models/
-│   │   ├── alert.py             # SplunkAlert, IOCBundle, SplunkWebhookPayload
-│   │   └── enrichment.py        # VirusTotalResult, ShodanResult, AbuseIPDBResult, EnrichedAlert
+│   │   ├── alert.py              # SplunkAlert, IOCBundle, SplunkWebhookPayload
+│   │   └── enrichment.py         # VirusTotalResult, ShodanResult, AbuseIPDBResult, EnrichedAlert
 │   ├── enrichers/
-│   │   ├── base.py              # Abstract base enricher
-│   │   ├── virustotal.py        # VT API v3 (IPs, domains, hashes)
-│   │   ├── shodan.py            # Shodan host lookup
-│   │   └── abuseipdb.py         # AbuseIPDB check endpoint
+│   │   ├── base.py               # Abstract base enricher
+│   │   ├── virustotal.py         # VT API v3 (IPs, domains, hashes)
+│   │   ├── shodan.py             # Shodan host lookup
+│   │   └── abuseipdb.py          # AbuseIPDB check endpoint
 │   ├── services/
 │   │   ├── enrichment_service.py # Orchestration, scoring, triage summary
 │   │   └── cache_service.py      # Redis async cache
 │   └── api/
-│       └── routes.py            # FastAPI routes
+│       └── routes.py             # FastAPI routes
 ├── tests/
-│   ├── conftest.py              # Shared fixtures & mocks
-│   ├── test_enrichers.py        # Enricher unit tests (respx mocks)
-│   ├── test_api.py              # API & service integration tests
+│   ├── conftest.py               # Shared fixtures & mocks
+│   ├── test_enrichers.py         # Enricher unit tests (respx mocks)
+│   ├── test_api.py               # API & service integration tests
 │   └── fixtures/
-│       └── sample_alert.json    # Sample Splunk alert payload
+│       └── sample_alert.json     # Sample Splunk alert payload
 ├── splunk/
-│   ├── alert_action.py          # Splunk custom alert action script
-│   └── README.md                # Splunk integration guide
+│   ├── alert_action.py           # Splunk custom alert action script
+│   └── README.md                 # Splunk integration guide
 ├── Dockerfile
 ├── docker-compose.yml
 ├── Makefile
 ├── requirements.txt
 └── .env.example
 ```
+
+<br/>
 
 ## Development
 
@@ -257,12 +269,15 @@ make lint      # ruff linter
 make docker-up # full stack
 ```
 
+<br/>
 
 ## Security and Privacy
 
 - Store VirusTotal, Shodan, AbuseIPDB, and optional Splunk webhook credentials only in environment variables or a managed secret store — never commit them.
 - Treat alert payloads and enrichment results as security-sensitive operational data; deploy with appropriate access controls, logging retention, and TLS termination.
 - API rate limits and third-party threat-intelligence coverage can affect enrichment completeness; validate findings through your incident-response process.
+
+<br/>
 
 ## Environment Variables
 
@@ -277,13 +292,21 @@ make docker-up # full stack
 | `SPLUNK_WEBHOOK_TOKEN` | *(empty)* | Optional webhook auth token |
 | `LOG_LEVEL` | `INFO` | `DEBUG` / `INFO` / `WARNING` |
 
-## Tech Stack
+<br/>
 
-- **FastAPI** — async REST framework
-- **httpx** — async HTTP client for all three TI APIs
-- **redis[asyncio]** — async Redis client for caching
-- **pydantic v2** — data validation and serialisation
-- **pytest + respx** — unit and integration testing
+## Contributing
+
+Issues and PRs are welcome — especially anything from the [roadmap](#roadmap--whats-next) above. Before opening a PR:
+
+```bash
+make install
+make lint
+make test
+```
+
+Keep changes focused, add/update tests for behavior changes, and describe the "why" in your PR description, not just the "what".
+
+<br/>
 
 ## License
 
@@ -292,3 +315,13 @@ This project is released under the [MIT License](LICENSE).
 Copyright (c) 2026 Ahmed Raza Shaikh.
 
 For the canonical license terms, see the [Open Source Initiative MIT License](https://opensource.org/license/mit/).
+
+<br/>
+
+<div align="center">
+
+Built by **[Ahmed Raza Shaikh](https://github.com/ahmed-raza-shaikh)** — if this saves your SOC some triage time, a ⭐ helps others find it.
+
+<img src="https://api.star-history.com/svg?repos=ahmed-raza-shaikh/Kuro-Strike&type=Date" alt="Star History Chart" width="480" />
+
+</div>
