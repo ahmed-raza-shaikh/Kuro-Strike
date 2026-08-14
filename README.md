@@ -87,21 +87,24 @@ If you run a Splunk-based SOC and are tired of manual IOC lookups eating analyst
 | 🟠 HIGH | 50 – 74 |
 | 🔴 CRITICAL | 75 – 100 |
 
+<br/>
+
 ## Quick Start
 
-### 1. Get API Keys
+### 1. Get API keys
 
 | Service | Free tier | Sign up |
 |---|---|---|
 | VirusTotal | 4 req/min | https://www.virustotal.com/gui/join-us |
 | Shodan | 100 query credits | https://account.shodan.io/register |
-| AbuseIPDB | 1 000 checks/day | https://www.abuseipdb.com/register |
+| AbuseIPDB | 1,000 checks/day | https://www.abuseipdb.com/register |
 
 ### 2. Configure
 
 ```bash
+cd siem-alert-enrichment
 cp .env.example .env
-# Edit .env — fill in your three API keys
+# edit .env — fill in your three API keys
 ```
 
 ### 3. Run
@@ -257,7 +260,7 @@ make docker-up # full stack
 
 ## Security and Privacy
 
-- Store VirusTotal, Shodan, AbuseIPDB, and optional Splunk webhook credentials only in environment variables or a managed secret store—never commit them.
+- Store VirusTotal, Shodan, AbuseIPDB, and optional Splunk webhook credentials only in environment variables or a managed secret store — never commit them.
 - Treat alert payloads and enrichment results as security-sensitive operational data; deploy with appropriate access controls, logging retention, and TLS termination.
 - API rate limits and third-party threat-intelligence coverage can affect enrichment completeness; validate findings through your incident-response process.
 
