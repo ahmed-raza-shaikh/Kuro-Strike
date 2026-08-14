@@ -1,6 +1,27 @@
-# Kuro-Strike — SIEM Alert Enrichment Microservice for Splunk
+<div align="center">
 
-A production-ready Python microservice that enriches **Splunk** security alerts in real time using **VirusTotal**, **Shodan**, and **AbuseIPDB** threat intelligence — reducing mean analyst triage time from ~8 minutes to **under 90 seconds** per alert.
+<img src="assets/banner.svg" alt="Kuro-Strike — SIEM Alert Enrichment Microservice for Splunk" width="100%" />
+
+<br/>
+
+<a href="https://opensource.org/license/mit/"><img src="https://img.shields.io/github/license/ahmed-raza-shaikh/Kuro-Strike?style=flat-square&color=65A637&label=license" alt="License"></a>
+<a href="#"><img src="https://img.shields.io/badge/python-3.12%2B-65A637?style=flat-square&logo=python&logoColor=white" alt="Python 3.12+"></a>
+<a href="#"><img src="https://img.shields.io/badge/FastAPI-async-65A637?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI"></a>
+<a href="#"><img src="https://img.shields.io/badge/Redis-cache-65A637?style=flat-square&logo=redis&logoColor=white" alt="Redis"></a>
+<a href="#"><img src="https://img.shields.io/badge/Docker-ready-65A637?style=flat-square&logo=docker&logoColor=white" alt="Docker ready"></a>
+<a href="#"><img src="https://img.shields.io/badge/tests-27%20passing-65A637?style=flat-square&logo=pytest&logoColor=white" alt="Tests passing"></a>
+<a href="#"><img src="https://img.shields.io/badge/lint-ruff-65A637?style=flat-square" alt="Linted with ruff"></a>
+<a href="#"><img src="https://img.shields.io/badge/Splunk-compatible-65A637?style=flat-square&logo=splunk&logoColor=white" alt="Splunk compatible"></a>
+<a href="https://github.com/ahmed-raza-shaikh/Kuro-Strike/stargazers"><img src="https://img.shields.io/github/stars/ahmed-raza-shaikh/Kuro-Strike?style=flat-square&color=65A637" alt="GitHub stars"></a>
+
+**A production-ready Python microservice that enriches Splunk security alerts in real time —**
+**VirusTotal + Shodan + AbuseIPDB threat intelligence, one API call, sub-second triage.**
+
+[Quick Start](#quick-start) · [API Reference](#api-reference) · [Splunk Integration](#splunk-integration) · [Roadmap](#roadmap--whats-next) · [Contributing](#contributing)
+
+</div>
+
+<br/>
 
 ```
 Splunk Alert  ──POST──►  /webhook/splunk
