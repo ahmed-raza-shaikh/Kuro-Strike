@@ -115,9 +115,11 @@ make install
 make dev
 ```
 
-Service listens on **http://localhost:8000** — interactive docs at **/docs**.
+Service listens on **http://localhost:8000** — interactive Swagger docs at **`/docs`**.
 
-## API
+<br/>
+
+## API Reference
 
 ### `POST /enrich`
 
@@ -139,7 +141,8 @@ curl -X POST http://localhost:8000/enrich \
   }'
 ```
 
-**Response**
+<details>
+<summary><strong>Response</strong></summary>
 
 ```json
 {
@@ -147,11 +150,13 @@ curl -X POST http://localhost:8000/enrich \
   "risk_score": 88,
   "triage_summary": "🔴 CRITICAL RISK  |  Score: 88/100\nAlert : Suspicious Outbound C2 Traffic\n\n■ IP: 185.220.101.45\n  VirusTotal  : 23/90 engines flagged  [⚠ MALICIOUS]\n  AbuseIPDB   : 95% confidence | 847 reports | RU\n  ISP         : Frantech Solutions\n  Shodan ports: [22, 80, 443, 4444]\n  CVEs        : CVE-2021-44228, CVE-2022-0847\n  Org         : AS-CHOOPA  (Amsterdam NL)\n\n■ Domain: malware-c2.xyz\n  VirusTotal  : 8/90 engines  [⚠ MALICIOUS]\n\n■ Hash: 44d88612fea8a8f...\n  VirusTotal  : 55/70 engines  [⚠ MALICIOUS]",
   "enrichment_duration_ms": 1247.3,
-  "ip_enrichments": { ... },
-  "domain_enrichments": { ... },
-  "hash_enrichments": { ... }
+  "ip_enrichments": { "...": "..." },
+  "domain_enrichments": { "...": "..." },
+  "hash_enrichments": { "...": "..." }
 }
 ```
+
+</details>
 
 ### `POST /webhook/splunk`
 
