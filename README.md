@@ -49,13 +49,43 @@ If you run a Splunk-based SOC and are tired of manual IOC lookups eating analyst
 
 ## Features
 
-- **Concurrent enrichment** — all three sources queried in parallel per IOC; latency ≈ `max(source)` not `sum(sources)`
-- **Redis caching** — repeat IOCs served from cache in < 5 ms; avoids redundant API calls and rate-limit burn
-- **Auto IOC extraction** — parses public IPs, domains, MD5/SHA-1/SHA-256 hashes from any Splunk result field
-- **Composite risk scoring** — weighted algorithm (0–100) combining VT engine count, AbuseIPDB confidence, Shodan CVEs and suspicious ports
-- **Human-readable triage summary** — instantly actionable summary with country, ISP, CVEs, and detection counts
-- **Dual Splunk integration** — native webhook receiver + custom alert action script
-- **Docker-ready** — single `docker compose up` starts service + Redis
+| | |
+|---|---|
+| **Concurrent enrichment** | All three sources queried in parallel per IOC via `asyncio.gather()` — latency ≈ `max(source)`, not `sum(sources)` |
+| **Redis caching** | Repeat IOCs served from cache in **< 5 ms**; protects your free-tier API quotas from repeat burn |
+| **Auto IOC extraction** | Parses public IPs, domains, and MD5 / SHA-1 / SHA-256 hashes from *any* Splunk result field |
+| **Composite risk scoring** | Weighted 0–100 algorithm combining VT engine count, AbuseIPDB confidence, Shodan CVEs and suspicious open ports |
+| **Human-readable triage summary** | Instantly actionable text summary with country, ISP, CVEs, and detection counts — pastes straight into a ticket |
+| **Dual Splunk integration** | Native webhook receiver *and* a custom alert action script for KV Store / index-time enrichment |
+| **Docker-ready** | Single `docker compose up` starts the service + Redis, healthchecked and running as non-root |
+| **Fully typed & tested** | pydantic v2 models end-to-end, 27 passing tests, `ruff`-linted, mocked TI responses via `respx` |
+
+<br/>
+
+## Risk Scoring
+
+<div align="center">
+<img src="assets/risk-gauge.svg" alt="Animated risk gauge sweeping from 0 to a critical score of 88 out of 100" width="520" />
+</div>
+
+| Source | Signal | Points |
+|---|---|---|
+| VirusTotal | Malicious engine count | `count × 4` (max 30) |
+| VirusTotal | Suspicious engine count | `count × 1` (max 5) |
+| VirusTotal | Low reputation (< -50) | +5 |
+| AbuseIPDB | Abuse confidence score | `score × 0.5` (max 50) |
+| AbuseIPDB | TOR exit node | +10 |
+| AbuseIPDB | > 500 reports | +5 |
+| Shodan | Known CVEs | `count × 8` (max 20) |
+| Shodan | Suspicious open ports | `count × 2` |
+| VirusTotal (hash) | Malicious engine count | `count × 6` (max 80) |
+
+| Risk Level | Score |
+|---|---|
+| 🟢 LOW | 0 – 24 |
+| 🟡 MEDIUM | 25 – 49 |
+| 🟠 HIGH | 50 – 74 |
+| 🔴 CRITICAL | 75 – 100 |
 
 ## Quick Start
 
@@ -138,27 +168,6 @@ Configure in Splunk: **Alert Actions → Webhook → URL: `http://<host>:8000/we
 ### `DELETE /cache`
 
 Flushes the Redis enrichment cache (admin/debug use).
-
-## Risk Scoring
-
-| Source | Signal | Points |
-|---|---|---|
-| VirusTotal | Malicious engine count | `count × 4` (max 30) |
-| VirusTotal | Suspicious engine count | `count × 1` (max 5) |
-| VirusTotal | Low reputation (< -50) | +5 |
-| AbuseIPDB | Abuse confidence score | `score × 0.5` (max 50) |
-| AbuseIPDB | TOR exit node | +10 |
-| AbuseIPDB | > 500 reports | +5 |
-| Shodan | Known CVEs | `count × 8` (max 20) |
-| Shodan | Suspicious open ports | `count × 2` |
-| VirusTotal (hash) | Malicious engine count | `count × 6` (max 80) |
-
-| Risk Level | Score |
-|---|---|
-| 🟢 LOW | 0 – 24 |
-| 🟡 MEDIUM | 25 – 49 |
-| 🟠 HIGH | 50 – 74 |
-| 🔴 CRITICAL | 75 – 100 |
 
 ## Project Structure
 
