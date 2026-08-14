@@ -1,0 +1,123 @@
+<svg width="1280" height="480" viewBox="0 0 1280 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kuro-Strike enrichment data flow: Splunk alert to EnrichmentService to VirusTotal, Shodan and AbuseIPDB in parallel, to Risk Score and Redis cache">
+  <defs>
+    <linearGradient id="fbg" x1="0" y1="0" x2="1280" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#05070a"/>
+      <stop offset="100%" stop-color="#0a140d"/>
+    </linearGradient>
+    <pattern id="fgrid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M 34 0 L 0 0 0 34" fill="none" stroke="#65a637" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+    <clipPath id="fclip"><rect width="1280" height="480" rx="14"/></clipPath>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a7a3a"/>
+    </marker>
+    <filter id="boxGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g clip-path="url(#fclip)" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect width="1280" height="480" fill="url(#fbg)"/>
+    <rect width="1280" height="480" fill="url(#fgrid)"/>
+
+    <!-- title -->
+    <text x="32" y="38" fill="#a9e78a" font-size="14" letter-spacing="2">ENRICHMENT PIPELINE — LIVE DATA FLOW</text>
+
+    <!-- Alert box -->
+    <g transform="translate(490,64)">
+      <rect width="300" height="56" rx="8" fill="#101410" stroke="#65a637" stroke-width="1.5"/>
+      <text x="150" y="24" text-anchor="middle" fill="#eafbe0" font-size="15" font-weight="700">Splunk Alert</text>
+      <text x="150" y="42" text-anchor="middle" fill="#8fae86" font-size="11">POST /webhook/splunk</text>
+    </g>
+
+    <!-- connector alert -> service -->
+    <path id="p0" d="M640,120 L640,160" stroke="#4a7a3a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- EnrichmentService box -->
+    <g transform="translate(430,162)">
+      <rect width="420" height="70" rx="8" fill="#101410" stroke="#65a637" stroke-width="1.5" filter="url(#boxGlow)">
+        <animate attributeName="stroke-opacity" values="1;0.5;1" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
+      <text x="210" y="28" text-anchor="middle" fill="#eafbe0" font-size="15" font-weight="700">EnrichmentService</text>
+      <text x="210" y="47" text-anchor="middle" fill="#8fae86" font-size="11">extract IOCs → asyncio.gather() fan-out</text>
+      <text x="210" y="62" text-anchor="middle" fill="#5f7a58" font-size="10">IPs · domains · MD5 / SHA-1 / SHA-256</text>
+    </g>
+
+    <!-- three branch connectors -->
+    <path id="p1" d="M640,232 L640,255 L200,255 L200,288" stroke="#4a7a3a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path id="p2" d="M640,232 L640,288" stroke="#4a7a3a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path id="p3" d="M640,232 L640,255 L1080,255 L1080,288" stroke="#4a7a3a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- Source boxes -->
+    <g transform="translate(60,290)">
+      <rect width="280" height="80" rx="8" fill="#0d1a10" stroke="#3f8a3f" stroke-width="1.5"/>
+      <text x="140" y="26" text-anchor="middle" fill="#bfe8ad" font-size="15" font-weight="700">VirusTotal</text>
+      <text x="140" y="45" text-anchor="middle" fill="#8fae86" font-size="11">malicious engines, reputation</text>
+      <text x="140" y="62" text-anchor="middle" fill="#5f7a58" font-size="10">API v3 — IPs / domains / hashes</text>
+    </g>
+    <g transform="translate(500,290)">
+      <rect width="280" height="80" rx="8" fill="#0d1620" stroke="#3f6f8a" stroke-width="1.5"/>
+      <text x="140" y="26" text-anchor="middle" fill="#ade0f5" font-size="15" font-weight="700">Shodan</text>
+      <text x="140" y="45" text-anchor="middle" fill="#8ba4ae" font-size="11">open ports, CVEs, org / ASN</text>
+      <text x="140" y="62" text-anchor="middle" fill="#5f727a" font-size="10">host lookup</text>
+    </g>
+    <g transform="translate(940,290)">
+      <rect width="280" height="80" rx="8" fill="#201a0d" stroke="#8a6f3f" stroke-width="1.5"/>
+      <text x="140" y="26" text-anchor="middle" fill="#f5dbad" font-size="15" font-weight="700">AbuseIPDB</text>
+      <text x="140" y="45" text-anchor="middle" fill="#aea08b" font-size="11">abuse score, reports, TOR exit</text>
+      <text x="140" y="62" text-anchor="middle" fill="#7a6f5f" font-size="10">check endpoint</text>
+    </g>
+
+    <!-- converge connectors -->
+    <path id="p4" d="M200,370 L200,400 L640,400 L640,420" stroke="#4a7a3a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path id="p5" d="M640,370 L640,420" stroke="#4a7a3a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path id="p6" d="M1080,370 L1080,400 L640,400 L640,420" stroke="#4a7a3a" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- Score box -->
+    <g transform="translate(430,422)">
+      <rect width="420" height="50" rx="8" fill="#101410" stroke="#65a637" stroke-width="1.5"/>
+      <text x="150" y="30" text-anchor="middle" fill="#eafbe0" font-size="14" font-weight="700">Risk Score 0–100 + Triage Summary</text>
+      <line x1="300" y1="8" x2="300" y2="42" stroke="#3a5a32"/>
+      <text x="360" y="24" text-anchor="middle" fill="#a9e78a" font-size="10" font-weight="700">Redis</text>
+      <text x="360" y="37" text-anchor="middle" fill="#6f8a66" font-size="9">TTL 1hr</text>
+    </g>
+
+    <!-- flowing packets along paths -->
+    <circle r="4" fill="#8bd957">
+      <animateMotion dur="1.8s" repeatCount="indefinite" begin="0s">
+        <mpath href="#p0"/>
+      </animateMotion>
+    </circle>
+    <circle r="4" fill="#8bd957">
+      <animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s">
+        <mpath href="#p1"/>
+      </animateMotion>
+    </circle>
+    <circle r="4" fill="#8bd957">
+      <animateMotion dur="1.6s" repeatCount="indefinite" begin="0.3s">
+        <mpath href="#p2"/>
+      </animateMotion>
+    </circle>
+    <circle r="4" fill="#8bd957">
+      <animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s">
+        <mpath href="#p3"/>
+      </animateMotion>
+    </circle>
+    <circle r="4" fill="#6fc7e8">
+      <animateMotion dur="2.4s" repeatCount="indefinite" begin="1.9s">
+        <mpath href="#p4"/>
+      </animateMotion>
+    </circle>
+    <circle r="4" fill="#e8b76f">
+      <animateMotion dur="1.9s" repeatCount="indefinite" begin="1.9s">
+        <mpath href="#p5"/>
+      </animateMotion>
+    </circle>
+    <circle r="4" fill="#e8b76f">
+      <animateMotion dur="2.4s" repeatCount="indefinite" begin="1.9s">
+        <mpath href="#p6"/>
+      </animateMotion>
+    </circle>
+  </g>
+</svg>

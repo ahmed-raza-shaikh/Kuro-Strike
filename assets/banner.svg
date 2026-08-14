@@ -1,0 +1,107 @@
+<svg width="1280" height="320" viewBox="0 0 1280 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kuro-Strike — SIEM Alert Enrichment for Splunk">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#05070a"/>
+      <stop offset="55%" stop-color="#0a0f0c"/>
+      <stop offset="100%" stop-color="#0b1a10"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#65a637" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#65a637" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="titleFill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#eafbe0"/>
+      <stop offset="100%" stop-color="#8bd957"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M 34 0 L 0 0 0 34" fill="none" stroke="#65a637" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+    <clipPath id="clip">
+      <rect width="1280" height="320" rx="14"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#clip)">
+    <rect width="1280" height="320" fill="url(#bg)"/>
+    <rect width="1280" height="320" fill="url(#grid)"/>
+    <rect width="1280" height="320" fill="url(#glow)"/>
+
+    <!-- scanline sweep -->
+    <rect x="-200" y="0" width="200" height="320" fill="#65a637" opacity="0.05">
+      <animate attributeName="x" values="-200;1280" dur="7s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- corner frame ticks, HUD style -->
+    <g stroke="#65a637" stroke-opacity="0.55" stroke-width="2" fill="none">
+      <path d="M20,20 L20,50 M20,20 L50,20"/>
+      <path d="M1260,20 L1260,50 M1260,20 L1230,20"/>
+      <path d="M20,300 L20,270 M20,300 L50,300"/>
+      <path d="M1260,300 L1260,270 M1260,300 L1230,300"/>
+    </g>
+
+    <!-- eyebrow -->
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+      <rect x="64" y="52" width="230" height="26" rx="13" fill="#65a637" fill-opacity="0.12" stroke="#65a637" stroke-opacity="0.5"/>
+      <circle cx="80" cy="65" r="4" fill="#8bd957">
+        <animate attributeName="opacity" values="1;0.25;1" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="94" y="70" fill="#a9e78a" font-size="13" letter-spacing="1.5">SPLUNK-COMPATIBLE · SOC TOOLING</text>
+    </g>
+
+    <!-- title -->
+    <text x="64" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="72" font-weight="700" fill="url(#titleFill)" filter="url(#softGlow)" letter-spacing="1">KURO-STRIKE</text>
+
+    <!-- subtitle -->
+    <text x="66" y="205" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="21" fill="#dff5d0">SIEM Alert Enrichment Microservice for Splunk</text>
+    <text x="66" y="234" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#8fae86">VirusTotal · Shodan · AbuseIPDB — concurrent enrichment, risk scoring &amp; triage in one API call</text>
+
+    <!-- risk pill row -->
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="600">
+      <g transform="translate(66,258)">
+        <rect width="86" height="26" rx="13" fill="#173318" stroke="#3f7a2a"/>
+        <circle cx="16" cy="13" r="5" fill="#4caf3f"/>
+        <text x="30" y="17" fill="#bfe8ad">LOW</text>
+      </g>
+      <g transform="translate(162,258)">
+        <rect width="102" height="26" rx="13" fill="#332f17" stroke="#7a712a"/>
+        <circle cx="16" cy="13" r="5" fill="#e0c23a"/>
+        <text x="30" y="17" fill="#ece3ae">MEDIUM</text>
+      </g>
+      <g transform="translate(274,258)">
+        <rect width="90" height="26" rx="13" fill="#332417" stroke="#7a4f2a"/>
+        <circle cx="16" cy="13" r="5" fill="#e0813a"/>
+        <text x="30" y="17" fill="#ecc7ae">HIGH</text>
+      </g>
+      <g transform="translate(374,258)">
+        <rect width="112" height="26" rx="13" fill="#331717" stroke="#7a2a2a"/>
+        <circle cx="16" cy="13" r="5" fill="#e03a3a">
+          <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="30" y="17" fill="#ecaeae">CRITICAL</text>
+      </g>
+    </g>
+
+    <!-- right side decorative node graph -->
+    <g transform="translate(900,60)" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#a9e78a" stroke="#65a637">
+      <g opacity="0.9">
+        <circle cx="30" cy="20" r="5" fill="#65a637" stroke="none"/>
+        <circle cx="150" cy="0" r="4" fill="#65a637" stroke="none" opacity="0.7"/>
+        <circle cx="180" cy="70" r="4" fill="#65a637" stroke="none" opacity="0.7"/>
+        <circle cx="60" cy="110" r="4" fill="#65a637" stroke="none" opacity="0.7"/>
+        <path d="M30,20 L150,0 M30,20 L180,70 M30,20 L60,110" stroke-opacity="0.35" fill="none"/>
+        <circle cx="30" cy="20" r="9" fill="none" stroke-opacity="0.6">
+          <animate attributeName="r" values="9;22;9" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-opacity" values="0.6;0;0.6" dur="3s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+    </g>
+  </g>
+</svg>
