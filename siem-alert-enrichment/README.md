@@ -1,41 +1,29 @@
+<a href="https://opensource.org/license/mit/"><img src="https://img.shields.io/github/license/ahmed-raza-shaikh/Kuro-Strike?style=flat-square&color=65A637&label=license" alt="License"></a>
+<a href="#"><img src="https://img.shields.io/badge/python-3.12%2B-65A637?style=flat-square&logo=python&logoColor=white" alt="Python 3.12+"></a>
+<a href="#"><img src="https://img.shields.io/badge/FastAPI-async-65A637?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI"></a>
+<a href="#"><img src="https://img.shields.io/badge/tests-27%20passing-65A637?style=flat-square&logo=pytest&logoColor=white" alt="Tests passing"></a>
+
 # SIEM Alert Enrichment Microservice
 
 A production-ready Python microservice that enriches **Splunk** security alerts in real time using **VirusTotal**, **Shodan**, and **AbuseIPDB** threat intelligence — reducing mean analyst triage time from ~8 minutes to **under 90 seconds** per alert.
 
-```
-Splunk Alert  ──POST──►  /webhook/splunk
-                               │
-                    ┌──────────▼──────────┐
-                    │  EnrichmentService  │
-                    │  ─────────────────  │
-                    │  Extract IOCs       │
-                    │  (IPs/domains/hash) │
-                    └──────────┬──────────┘
-                               │  asyncio.gather()
-                 ┌─────────────┼─────────────┐
-                 ▼             ▼             ▼
-          VirusTotal        Shodan       AbuseIPDB
-         (malicious       (open ports,  (abuse score,
-          engines,         CVEs, org)    reports, TOR)
-          reputation)
-                 └─────────────┬─────────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │   Risk Score 0–100  │
-                    │   Triage Summary    │◄─── Redis Cache
-                    │   EnrichedAlert     │     (TTL 1 hr)
-                    └─────────────────────┘
-```
+> This is the technical reference for the service itself. For the full pitch, an animated architecture diagram, and the feature roadmap, see the [project README](../README.md).
+
+<div align="center">
+<img src="../assets/flow-diagram.svg" alt="Animated enrichment pipeline: Splunk alert flows into EnrichmentService, fans out concurrently to VirusTotal, Shodan and AbuseIPDB, then converges into a risk score cached in Redis" width="100%" />
+</div>
 
 ## Features
 
-- **Concurrent enrichment** — all three sources queried in parallel per IOC; latency ≈ `max(source)` not `sum(sources)`
-- **Redis caching** — repeat IOCs served from cache in < 5 ms; avoids redundant API calls and rate-limit burn
-- **Auto IOC extraction** — parses public IPs, domains, MD5/SHA-1/SHA-256 hashes from any Splunk result field
-- **Composite risk scoring** — weighted algorithm (0–100) combining VT engine count, AbuseIPDB confidence, Shodan CVEs and suspicious ports
-- **Human-readable triage summary** — instantly actionable summary with country, ISP, CVEs, and detection counts
-- **Dual Splunk integration** — native webhook receiver + custom alert action script
-- **Docker-ready** — single `docker compose up` starts service + Redis
+| | |
+|---|---|
+| **Concurrent enrichment** | All three sources queried in parallel per IOC via `asyncio.gather()` — latency ≈ `max(source)`, not `sum(sources)` |
+| **Redis caching** | Repeat IOCs served from cache in **< 5 ms**; avoids redundant API calls and rate-limit burn |
+| **Auto IOC extraction** | Parses public IPs, domains, and MD5 / SHA-1 / SHA-256 hashes from any Splunk result field |
+| **Composite risk scoring** | Weighted 0–100 algorithm combining VT engine count, AbuseIPDB confidence, Shodan CVEs and suspicious ports |
+| **Human-readable triage summary** | Instantly actionable summary with country, ISP, CVEs, and detection counts |
+| **Dual Splunk integration** | Native webhook receiver + custom alert action script |
+| **Docker-ready** | Single `docker compose up` starts service + Redis |
 
 ## Quick Start
 
@@ -97,9 +85,9 @@ curl -X POST http://localhost:8000/enrich \
   "risk_score": 88,
   "triage_summary": "🔴 CRITICAL RISK  |  Score: 88/100\nAlert : Suspicious Outbound C2 Traffic\n\n■ IP: 185.220.101.45\n  VirusTotal  : 23/90 engines flagged  [⚠ MALICIOUS]\n  AbuseIPDB   : 95% confidence | 847 reports | RU\n  ISP         : Frantech Solutions\n  Shodan ports: [22, 80, 443, 4444]\n  CVEs        : CVE-2021-44228, CVE-2022-0847\n  Org         : AS-CHOOPA  (Amsterdam NL)\n\n■ Domain: malware-c2.xyz\n  VirusTotal  : 8/90 engines  [⚠ MALICIOUS]\n\n■ Hash: 44d88612fea8a8f...\n  VirusTotal  : 55/70 engines  [⚠ MALICIOUS]",
   "enrichment_duration_ms": 1247.3,
-  "ip_enrichments": { ... },
-  "domain_enrichments": { ... },
-  "hash_enrichments": { ... }
+  "ip_enrichments": { "...": "..." },
+  "domain_enrichments": { "...": "..." },
+  "hash_enrichments": { "...": "..." }
 }
 ```
 
